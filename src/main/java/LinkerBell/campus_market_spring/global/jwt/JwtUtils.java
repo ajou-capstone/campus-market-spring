@@ -118,4 +118,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
+    public String getEmail(String token) {
+        return getClaims(token).get("email", String.class);
+    }
 }

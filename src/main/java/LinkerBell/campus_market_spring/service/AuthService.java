@@ -3,6 +3,7 @@ package LinkerBell.campus_market_spring.service;
 import LinkerBell.campus_market_spring.domain.Role;
 import LinkerBell.campus_market_spring.domain.User;
 import LinkerBell.campus_market_spring.dto.AuthResponseDto;
+import LinkerBell.campus_market_spring.dto.AuthUserDto;
 import LinkerBell.campus_market_spring.global.error.ErrorCode;
 import LinkerBell.campus_market_spring.global.error.exception.CustomException;
 import LinkerBell.campus_market_spring.global.jwt.JwtUtils;
@@ -84,5 +85,16 @@ public class AuthService {
             .build();
 
         return authResponseDto;
+    }
+
+    public AuthUserDto getUserByLoginEmail(String loginEmail) {
+        User user = userRepository.findByLoginEmail(loginEmail)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        return AuthUserDto.builder()
+            .userId(user.getUserId())
+            .loginEmail(user.getLoginEmail())
+            .role(user.getRole())
+            .build();
     }
 }

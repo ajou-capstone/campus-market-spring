@@ -93,6 +93,18 @@ class JwtUtilsTest {
         assertThat(authorityString).isEqualTo("ROLE_GUEST");
     }
 
+    @Test
+    @DisplayName("jwt에서 email 정보 가져오기 테스트")
+    public void getEmailFromJwtTest() {
+        // given
+        User user = createUser();
+        String token = jwtUtils.generateAccessToken(user.getLoginEmail(), user.getRole());
+        // when
+        String email = jwtUtils.getEmail(token);
+        // then
+        assertThat(email).isEqualTo(user.getLoginEmail());
+    }
+
     private User createUser() {
         return User.builder()
                 .loginEmail("abc@gmail.com")
