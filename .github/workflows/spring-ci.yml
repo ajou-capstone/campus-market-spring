@@ -19,12 +19,17 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Set up campus_dataset.csv file
+        run: |
+          echo "${{ secrets.CAMPUS_DATASET }}" | base64 --decode > ./campus_dataset.csv
+        shell: bash 
+
       - name: Set up application.yml file
         run: |
-          cd ./src/main/resources
-          rm -rf ./application.yml
-          touch ./application.yml
-          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+          mkdir -p src/main/resources
+          mkdir -p src/test/resources
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_TEST_YML }}" > src/test/resources/application.yml
         shell: bash
 
       - name: Grant Execute Permission for gradlew
