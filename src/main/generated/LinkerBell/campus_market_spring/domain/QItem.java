@@ -70,7 +70,7 @@ public class QItem extends EntityPathBase<Item> {
 
     public QItem(Class<? extends Item> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.campus = inits.isInitialized("campus") ? new QCampus(forProperty("campus"), inits.get("campus")) : null;
+        this.campus = inits.isInitialized("campus") ? new QCampus(forProperty("campus")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
         this.userBuyer = inits.isInitialized("userBuyer") ? new QUser(forProperty("userBuyer"), inits.get("userBuyer")) : null;
     }

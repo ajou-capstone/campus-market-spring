@@ -1,11 +1,10 @@
 package LinkerBell.campus_market_spring.service;
 
-import LinkerBell.campus_market_spring.domain.ChatProperties;
-import LinkerBell.campus_market_spring.domain.ChatRoom;
-import LinkerBell.campus_market_spring.domain.Item;
-import LinkerBell.campus_market_spring.domain.User;
+import LinkerBell.campus_market_spring.domain.*;
+import LinkerBell.campus_market_spring.dto.AuthUserDto;
 import LinkerBell.campus_market_spring.dto.ChatRoomRequestDto;
 import LinkerBell.campus_market_spring.dto.ChatRoomResponseDto;
+import LinkerBell.campus_market_spring.global.auth.Login;
 import LinkerBell.campus_market_spring.global.error.ErrorCode;
 import LinkerBell.campus_market_spring.global.error.exception.CustomException;
 import LinkerBell.campus_market_spring.repository.ChatPropertiesRepository;
@@ -49,6 +48,8 @@ class ChatRoomServiceTest {
         Long itemId = 2L;
         String buyerNickname = "buyerNick";
         String sellerNickname = "sellerNick";
+        String loginEmail = "loginEmail";
+        Role role=Role.USER;
 
         User buyer = new User();
         buyer.setUserId(userId);
@@ -61,6 +62,7 @@ class ChatRoomServiceTest {
         item.setUser(seller);
 
         ChatRoomRequestDto requestDto = new ChatRoomRequestDto(userId, itemId);
+        AuthUserDto authUserDto = new AuthUserDto(userId, loginEmail,role);
 
         // Mocking
         when(userRepository.findById(userId)).thenReturn(Optional.of(buyer));
@@ -72,7 +74,7 @@ class ChatRoomServiceTest {
         });
 
         // when
-        ChatRoomResponseDto responseDto = chatRoomService.addChatRoom(requestDto);
+        ChatRoomResponseDto responseDto = chatRoomService.addChatRoom(authUserDto,requestDto);
 
         // then
         assertNotNull(responseDto);
@@ -90,14 +92,17 @@ class ChatRoomServiceTest {
         // given
         Long userId = 1L;
         Long itemId = 2L;
+        String loginEmail = "loginEmail";
+        Role role=Role.USER;
         ChatRoomRequestDto requestDto = new ChatRoomRequestDto(userId, itemId);
+        AuthUserDto authUserDto = new AuthUserDto(userId, loginEmail,role);
 
         // Mocking: 사용자가 없을 때 Optional.empty() 반환
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // when & then: CustomException이 USER_NOT_FOUND와 함께 발생하는지 테스트
         CustomException exception = assertThrows(CustomException.class, () -> {
-            chatRoomService.addChatRoom(requestDto);
+            chatRoomService.addChatRoom(authUserDto,requestDto);
         });
 
         assertEquals(ErrorCode.USER_NOT_FOUND, exception.getErrorCode());
@@ -114,10 +119,13 @@ class ChatRoomServiceTest {
         // given
         Long userId = 1L;
         Long itemId = 2L;
+        String loginEmail = "loginEmail";
+        Role role=Role.USER;
         User buyer = new User();
         buyer.setUserId(userId);
 
         ChatRoomRequestDto requestDto = new ChatRoomRequestDto(userId, itemId);
+        AuthUserDto authUserDto = new AuthUserDto(userId, loginEmail,role);
 
         // Mocking: User는 찾았지만 Item은 없을 때 Optional.empty() 반환
         when(userRepository.findById(userId)).thenReturn(Optional.of(buyer));
@@ -125,7 +133,7 @@ class ChatRoomServiceTest {
 
         // when & then: CustomException이 ITEM_NOT_FOUND와 함께 발생하는지 테스트
         CustomException exception = assertThrows(CustomException.class, () -> {
-            chatRoomService.addChatRoom(requestDto);
+            chatRoomService.addChatRoom(authUserDto,requestDto);
         });
 
         assertEquals(ErrorCode.ITEM_NOT_FOUND, exception.getErrorCode());

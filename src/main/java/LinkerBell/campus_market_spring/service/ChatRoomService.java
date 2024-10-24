@@ -4,6 +4,7 @@ import LinkerBell.campus_market_spring.domain.ChatProperties;
 import LinkerBell.campus_market_spring.domain.ChatRoom;
 import LinkerBell.campus_market_spring.domain.Item;
 import LinkerBell.campus_market_spring.domain.User;
+import LinkerBell.campus_market_spring.dto.AuthUserDto;
 import LinkerBell.campus_market_spring.dto.ChatRoomRequestDto;
 import LinkerBell.campus_market_spring.dto.ChatRoomResponseDto;
 import LinkerBell.campus_market_spring.global.error.ErrorCode;
@@ -26,8 +27,8 @@ public class ChatRoomService {
 
     // 채팅방 만들기. 채팅방 설정도 2개 만듦
     @Transactional
-    public ChatRoomResponseDto addChatRoom(ChatRoomRequestDto chatRoomRequestDto) {
-        User buyer = userRepository.findById(chatRoomRequestDto.getUserId())
+    public ChatRoomResponseDto addChatRoom(AuthUserDto user, ChatRoomRequestDto chatRoomRequestDto) {
+        User buyer = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Item item = itemRepository.findById(chatRoomRequestDto.getItemId())
                 .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
