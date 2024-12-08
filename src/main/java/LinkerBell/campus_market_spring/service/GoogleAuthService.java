@@ -26,7 +26,6 @@ public class GoogleAuthService {
         GoogleIdToken googleIdToken = getGoogleIdToken(idToken);
 
         if (idToken == null) {
-            log.error("idToken is null");
             throw new CustomException(ErrorCode.INVALID_GOOGLE_TOKEN);
         }
 
@@ -46,7 +45,6 @@ public class GoogleAuthService {
         } catch (GeneralSecurityException | IOException e) {
             throw new CustomException(ErrorCode.UNVERIFIED_GOOGLE_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.error("IllegalArgumentException");
             throw new CustomException(ErrorCode.INVALID_GOOGLE_TOKEN);
         }
         return idToken;

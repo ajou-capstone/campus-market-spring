@@ -27,18 +27,13 @@ public class FcmNotificationService {
                 .setTitle(fcmMessageDto.getTitle())
                 .setBody(fcmMessageDto.getBody())
                 .build());
-        log.info("sendNotification fcm token={}", fcmMessageDto.getTargetToken());
-        log.info("sendNotification title={}", fcmMessageDto.getTitle());
-        log.info("sendNotification body={}", fcmMessageDto.getBody());
-        log.info("sendNotification deeplink={}", fcmMessageDto.getDeeplinkUrl());
+
         if (fcmMessageDto.getDeeplinkUrl() != null) {
             messageBuilder.putData("deeplink", fcmMessageDto.getDeeplinkUrl());
         }
-        log.info("fcm deeplink={}", fcmMessageDto.getDeeplinkUrl());
         Message message = messageBuilder.build();
         try {
             String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-            log.info("Successfully sent message with deeplink: {}", response);
         } catch (ExecutionException e) {
             Throwable cause = e.getCause();
             if (cause instanceof FirebaseMessagingException messagingException) {

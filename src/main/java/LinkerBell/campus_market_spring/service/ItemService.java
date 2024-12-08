@@ -69,10 +69,7 @@ public class ItemService {
 
         List<Keyword> sendingKeywords = keywordService.findKeywordsWithSameItemCampusAndTitle(
             savedItem);
-        for (Keyword k : sendingKeywords) {
-            log.info("keyword k.getUserId{}", k.getUser().getUserId());
-            log.info("keyword KeywordName.getUserId{}", k.getKeywordName());
-        }
+
         notificationHistoryService.saveNotificationHistory(sendingKeywords, savedItem);
         fcmService.sendFcmMessageWithKeywords(sendingKeywords, savedItem);
 

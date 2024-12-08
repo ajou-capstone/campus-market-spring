@@ -32,9 +32,7 @@ public class FcmService {
         for (Keyword sendingKeyword : sendingKeywords) {
             List<String> fcmTokens = userFcmTokenRepository.findFcmTokenByUser_UserId(
                 sendingKeyword.getUser().getUserId());
-            log.info("fcmTokens size={}", fcmTokens.size());
             for (String fcmToken : fcmTokens) {
-                log.info("send fcmToken={}", fcmToken);
                 FcmMessageDto sendingKeywordMessage = createKeywordFcmMessage(sendingKeyword,
                     fcmToken,
                     savedItem);
@@ -57,11 +55,9 @@ public class FcmService {
 
     public void saveUserFcmToken(String firebaseToken, User user) {
         userFcmTokenRepository.findByFcmToken(firebaseToken).ifPresentOrElse(userFcmToken -> {
-                log.info("already exist.");
                 userFcmToken.setLastModifiedDate(LocalDateTime.now());
             },
             () -> {
-                log.info("not exist.");
                 UserFcmToken userFcmToken = UserFcmToken.builder().fcmToken(firebaseToken)
                     .user(user).build();
                 userFcmTokenRepository.save(userFcmToken);

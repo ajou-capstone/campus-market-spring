@@ -47,7 +47,7 @@ public class ChattingService {
         String content = "";
 
         if (chattingRequestDto.getContentType() == ContentType.TIMETABLE) {
-            log.info("makeChattingResponseDto: contentType=TIMETABLE");
+
         } else {
             content = chattingRequestDto.getContent();
         }
@@ -108,14 +108,10 @@ public class ChattingService {
         }
 
         if (!chatProperties.isAlarm()) {
-            log.info("isAlarm is false");
             return;
         }
 
         String content = chattingRequestDto.getContent();
-
-        log.info("send notification targetUserId : {} title : {} content : {}", targetUserId, title,
-            content);
 
         fcmService.sendFcmMessageWithChat(targetUserId, chatRoomId, title, content);
     }

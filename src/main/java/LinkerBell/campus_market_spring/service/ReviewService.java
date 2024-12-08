@@ -40,8 +40,6 @@ public class ReviewService {
             .orElseThrow(() -> new CustomException(ErrorCode.ITEM_NOT_FOUND));
 
         int reviewCount = reviewRepository.countReview(targetUser);
-        log.info("login user : {}, target user : {} , target user Review count: {}",
-            user.getNickname(), targetUser.getNickname(), reviewCount);
 
         Review review = Review.builder()
             .user(user)
@@ -57,13 +55,7 @@ public class ReviewService {
         double newUserRating =
             ((targetUserRating * reviewCount) + (reviewRequestDto.getRating())) / (reviewCount + 1);
 
-        log.info(
-            "((userRating {} * reviewCount {}) + (reviewRequestDto.getRating() {} )) / (reviewCount + 1)",
-            targetUserRating, reviewCount, reviewRequestDto.getRating());
-
         targetUser.setRating(newUserRating);
-
-        log.info("new user rating: {}", newUserRating);
     }
 
     // 리뷰 가져오기

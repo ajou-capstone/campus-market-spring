@@ -40,7 +40,5 @@ public class ChatPropertiesService {
         }
 
         chatProperties.setAlarm(isAlarm);
-
-        log.info("patchAlarm - userId : {}, isAlarm : {}", userId, isAlarm);
     }
 }

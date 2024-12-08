@@ -46,8 +46,6 @@ public class ChatMessageService {
                     sevenDaysAgo));
         }
 
-        log.info("ChatMessageService - recentChatMessageIdList : {}",
-            recentChatMessageIdList);
 
         RecentChatMessageResponseDto recentChatMessageResponseDto = RecentChatMessageResponseDto
             .builder()

@@ -40,8 +40,5 @@ public class ChattingController {
         messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, chattingResponseDto);
 
         chattingService.sendNotification(userId, chatRoomId, chattingRequestDto);
-
-        log.info("userId {} send to chatRoomId {} : {}", userId, chatRoomId,
-            chattingResponseDto.getContent());
     }
 }

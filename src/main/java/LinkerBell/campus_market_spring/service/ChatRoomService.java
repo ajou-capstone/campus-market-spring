@@ -178,11 +178,6 @@ public class ChatRoomService {
                     chatPropertiesRepository.findByUserAndChatRoom(user, chatRoom).isAlarm())
                 .messageId(messageId).build();
         } else { // 내가 판매자인 경우
-            if (chatPropertiesRepository.findByUserAndChatRoom(user, chatRoom) == null) {
-                log.info(
-                    "chatRoomService - getChatRoom - findByUserAndChatRoom is null, user : {}, chatRoom : {}",
-                    user.getNickname(), chatRoom.getChatRoomId());
-            }
 
             chatRoomDataResponseDto = ChatRoomDataResponseDto.builder()
                 .chatRoomId(chatRoom.getChatRoomId()).userId(chatRoom.getUser().getUserId())

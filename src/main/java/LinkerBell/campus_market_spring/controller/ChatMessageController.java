@@ -30,7 +30,6 @@ public class ChatMessageController {
     @GetMapping("api/v1/chat/recent-message")
     public ResponseEntity<RecentChatMessageResponseDto> getRecentMessage(
         @Login AuthUserDto authUserDto) {
-        log.info("ChatMessageController - Get recent chat message of {}", authUserDto.getUserId());
         RecentChatMessageResponseDto recentChatMessageResponseDto = chatMessageService.getRecentMessageList(
             authUserDto.getUserId());
         return ResponseEntity.ok(recentChatMessageResponseDto);
